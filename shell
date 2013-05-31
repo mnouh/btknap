@@ -1,0 +1,6 @@
+#! /bin/ksh
+cat number.txt | while read line
+do
+echo $(($line/10))
+done
+

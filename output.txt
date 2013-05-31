@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+import sys
+import random
+
+def genString(maxLength = 5):
+    charstring=''
+    cap = random.randrange(1, maxLength+1)
+    for i in range(cap):
+        charstring += random.choice(['a','b'])
+    return charstring
+
+
+def genCase(accept = True, length = 5):
+    x = genString(length)
+    y = genString(length)
+    z = genString(length)
+    w = genString(length)
+    ret=''
+    ret = x + '#' + y + '#' + z + '#' + w
+    if accept and (x==w or y==z):
+        return  genCase(True, length)
+    elif accept:
+        return [ret, 'accept']
+
+    if not accept and not (x==w or y==z):
+        return genCase(False, length)
+    elif not accept:
+        return [ret, 'reject']
+
+if __name__ == "__main__":
+    cases=[]
+    test_cases_file = open("testcases.txt", 'w')
+    length = 5
+    if len(sys.argv) > 1:
+        length = int(sys.argv[1])
+
+    #make 5 accepts followed by 5 rejects
+    for i in range(10):
+        test_cases_file.write(genCase(True, length)[0] + '\n')
+    for i in range(10):
+        test_cases_file.write(genCase(False, length)[0] + '\n')
